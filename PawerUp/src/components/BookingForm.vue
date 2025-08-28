@@ -30,7 +30,6 @@ const errors = ref({})
 const showDogMessage = ref(false)
 const showOtherNeeds = ref(false)
 
-// Watch specialNeeds to toggle otherNeeds input
 watch(
   () => form.value.specialNeeds,
   (val) => {
@@ -68,7 +67,6 @@ const checkDogKeyword = () => {
   showDogMessage.value = form.value.reason.toLowerCase().includes('dog')
 }
 
-// Submit handler with localStorage save
 const handleSubmit = () => {
   validateFirstName()
   validateLastName()
@@ -200,9 +198,10 @@ const clearForm = () => {
             </option>
           </select>
         </div>
-        <div class="col-sm-6" v-if="showOtherNeeds">
-          <label>Other Needs</label>
-          <input type="text" v-model="form.otherNeeds" class="form-control" />
+
+        <div class="col-sm-6" v-if="form.specialNeeds === 'Other'">
+          <label for="otherNeeds">Please specify</label>
+          <input v-model="form.otherNeeds" id="otherNeeds" type="text" class="form-control" />
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const isLogin = ref(true) // toggle login/register
+const isLogin = ref(true)
 
 // Form state
 const loginForm = ref({
@@ -146,7 +146,7 @@ const handleLogin = () => {
               </div>
             </template>
 
-            <!-- REGISTER: two-column layout using Bootstrap grid -->
+            <!-- REGISTE-->
             <template v-else>
               <div class="row mb-3">
                 <div class="col-sm-6 col-md-6">
@@ -240,7 +240,6 @@ const handleLogin = () => {
 </template>
 
 <style scoped>
-/* keep visual style simple and rely on Bootstrap for responsiveness */
 .form-wrapper {
   background-color: #fafcf8;
   padding: 20px;
@@ -258,7 +257,7 @@ const handleLogin = () => {
   transition: all 0.18s;
 }
 .toggle-btn.active {
-  background: #fbcda1; /* palette accent */
+  background: #fbcda1;
   border-color: rgba(0, 0, 0, 0.08);
   font-weight: 600;
 }

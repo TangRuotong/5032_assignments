@@ -61,7 +61,6 @@ const highlightCards = ref([
   color: #212615;
 }
 
-/* Header */
 h1 {
   font-size: 3rem;
   font-weight: 500;
@@ -73,7 +72,6 @@ p {
   font-weight: 300;
 }
 
-/* Card style */
 .highlight-card {
   position: relative;
   border-radius: 30px;
@@ -90,7 +88,6 @@ p {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
 }
 
-/* Layer effect */
 .card-layer {
   position: absolute;
   width: 150%;
@@ -101,7 +98,6 @@ p {
   transform: rotate(15deg);
 }
 
-/* Card content */
 .card-content {
   position: relative;
   z-index: 2;
