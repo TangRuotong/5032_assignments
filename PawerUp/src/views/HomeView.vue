@@ -31,21 +31,25 @@ const highlightCards = ref([
 </script>
 
 <template>
-  <div class="home-container">
-    <div class="home-header">
-      <h1>Welcome to Pawer Up</h1>
+  <div class="container py-5">
+    <div class="text-center mb-5">
+      <h1 class="mb-3">Welcome to Pawer Up</h1>
       <p>Supporting youth mental health with therapy dog interactions</p>
     </div>
 
-    <div class="home-main">
+    <div class="row justify-content-center">
       <div
         v-for="card in highlightCards"
         :key="card.id"
-        class="highlight-card"
-        :style="{ backgroundColor: card.color }"
+        class="col-12 col-sm-6 col-md-4 mb-4 d-flex"
       >
-        <h2>{{ card.title }}</h2>
-        <p>{{ card.text }}</p>
+        <div class="highlight-card flex-fill" :style="{ backgroundColor: card.color }">
+          <div class="card-content">
+            <h2>{{ card.title }}</h2>
+            <p>{{ card.text }}</p>
+          </div>
+          <div class="card-layer"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -54,63 +58,59 @@ const highlightCards = ref([
 <style scoped>
 .home-container {
   font-family: 'Poppins', sans-serif;
-  padding: 40px 20px;
-  background: #fafcf8;
-  min-height: 100vh;
   color: #212615;
-  max-width: 95vw;
-  margin: 0 auto;
 }
 
-.home-header {
-  text-align: center;
-  margin-bottom: 50px;
-}
-
-.home-header h1 {
+/* Header */
+h1 {
   font-size: 3rem;
-  font-weight: 300;
+  font-weight: 500;
   letter-spacing: 1.5px;
-  margin-bottom: 10px;
 }
 
-.home-header p {
+p {
   font-size: 1.2rem;
   font-weight: 300;
-  color: #212615;
 }
 
-.home-main {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-}
-
+/* Card style */
 .highlight-card {
-  border-radius: 30px;
-  padding: 30px;
-  flex: 1 1 280px;
-  max-width: 300px;
-  min-height: 180px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
   position: relative;
+  border-radius: 30px;
   overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: flex-start;
+  padding: 25px;
 }
 
 .highlight-card:hover {
-  transform: translateY(-10px) rotate(-1deg);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* Layer effect */
+.card-layer {
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  background: rgba(255, 255, 255, 0.05);
+  transform: rotate(15deg);
+}
+
+/* Card content */
+.card-content {
+  position: relative;
+  z-index: 2;
 }
 
 .highlight-card h2 {
   font-size: 1.6rem;
-  font-weight: 300;
-  margin-bottom: 12px;
-  color: #212615;
+  font-weight: 500;
+  margin-bottom: 10px;
 }
 
 .highlight-card p {

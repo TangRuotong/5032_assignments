@@ -14,7 +14,7 @@ const registerForm = ref({
   lastName: '',
   email: '',
   password: '',
-  role: 'user', // 'user' or 'admin'
+  role: 'user',
 })
 
 // Errors
@@ -86,151 +86,200 @@ const handleLogin = () => {
 </script>
 
 <template>
-  <div class="dashboard-container">
-    <div class="form-wrapper">
-      <h2>{{ isLogin ? 'Login' : 'Register' }}</h2>
+  <div class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="form-wrapper p-4">
+          <h2 class="mb-3 text-center">{{ isLogin ? 'Login' : 'Register' }}</h2>
 
-      <!-- Toggle -->
-      <div class="toggle-container">
-        <button :class="isLogin ? 'active' : ''" @click="isLogin = true">Login</button>
-        <button :class="!isLogin ? 'active' : ''" @click="isLogin = false">Register</button>
+          <!-- Toggle -->
+          <div class="toggle-container mb-3 d-flex justify-content-center">
+            <button
+              type="button"
+              class="btn toggle-btn me-2"
+              :class="{ active: isLogin }"
+              @click="isLogin = true"
+            >
+              Login
+            </button>
+            <button
+              type="button"
+              class="btn toggle-btn"
+              :class="{ active: !isLogin }"
+              @click="isLogin = false"
+            >
+              Register
+            </button>
+          </div>
+
+          <form @submit.prevent="isLogin ? handleLogin() : handleRegister()">
+            <!-- LOGIN: stacked single-column but still inside Bootstrap grid -->
+            <template v-if="isLogin">
+              <div class="row mb-3">
+                <div class="col-12">
+                  <label class="form-label">Email *</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    v-model="loginForm.email"
+                    @blur="checkLoginEmail()"
+                  />
+                  <div v-if="loginErrors.email" class="text-danger small mt-1">
+                    {{ loginErrors.email }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-12">
+                  <label class="form-label">Password *</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    v-model="loginForm.password"
+                    @blur="checkLoginPassword()"
+                  />
+                  <div v-if="loginErrors.password" class="text-danger small mt-1">
+                    {{ loginErrors.password }}
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <!-- REGISTER: two-column layout using Bootstrap grid -->
+            <template v-else>
+              <div class="row mb-3">
+                <div class="col-sm-6 col-md-6">
+                  <label class="form-label">First Name *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="registerForm.firstName"
+                    @blur="
+                      () => {
+                        if (!validateNotEmpty(registerForm.firstName))
+                          registerErrors.firstName = 'Required'
+                        else registerErrors.firstName = ''
+                      }
+                    "
+                  />
+                  <div v-if="registerErrors.firstName" class="text-danger small mt-1">
+                    {{ registerErrors.firstName }}
+                  </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6">
+                  <label class="form-label">Last Name *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="registerForm.lastName"
+                    @blur="
+                      () => {
+                        if (!validateNotEmpty(registerForm.lastName))
+                          registerErrors.lastName = 'Required'
+                        else registerErrors.lastName = ''
+                      }
+                    "
+                  />
+                  <div v-if="registerErrors.lastName" class="text-danger small mt-1">
+                    {{ registerErrors.lastName }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-sm-6 col-md-6">
+                  <label class="form-label">Email *</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    v-model="registerForm.email"
+                    @blur="checkRegisterEmail()"
+                  />
+                  <div v-if="registerErrors.email" class="text-danger small mt-1">
+                    {{ registerErrors.email }}
+                  </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6">
+                  <label class="form-label">Password *</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    v-model="registerForm.password"
+                    @blur="checkRegisterPassword()"
+                  />
+                  <div v-if="registerErrors.password" class="text-danger small mt-1">
+                    {{ registerErrors.password }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-12 col-sm-6">
+                  <label class="form-label">Role *</label>
+                  <select class="form-select" v-model="registerForm.role">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
+              </div>
+            </template>
+
+            <div class="d-grid gap-2 mt-3">
+              <button type="submit" class="btn btn-primary btn-block">
+                {{ isLogin ? 'Login' : 'Register' }}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-
-      <form @submit.prevent="isLogin ? handleLogin() : handleRegister()">
-        <!-- Login Fields -->
-        <template v-if="isLogin">
-          <div class="form-group">
-            <label>Email *</label>
-            <input type="email" v-model="loginForm.email" @blur="checkLoginEmail()" />
-            <p class="error-msg" v-if="loginErrors.email">{{ loginErrors.email }}</p>
-          </div>
-
-          <div class="form-group">
-            <label>Password *</label>
-            <input type="password" v-model="loginForm.password" @blur="checkLoginPassword()" />
-            <p class="error-msg" v-if="loginErrors.password">{{ loginErrors.password }}</p>
-          </div>
-        </template>
-
-        <!-- Register Fields -->
-        <template v-else>
-          <div class="form-group">
-            <label>First Name *</label>
-            <input
-              type="text"
-              v-model="registerForm.firstName"
-              @blur="
-                () => {
-                  if (!validateNotEmpty(registerForm.firstName))
-                    registerErrors.firstName = 'Required'
-                  else registerErrors.firstName = ''
-                }
-              "
-            />
-            <p class="error-msg" v-if="registerErrors.firstName">{{ registerErrors.firstName }}</p>
-          </div>
-
-          <div class="form-group">
-            <label>Last Name *</label>
-            <input
-              type="text"
-              v-model="registerForm.lastName"
-              @blur="
-                () => {
-                  if (!validateNotEmpty(registerForm.lastName)) registerErrors.lastName = 'Required'
-                  else registerErrors.lastName = ''
-                }
-              "
-            />
-            <p class="error-msg" v-if="registerErrors.lastName">{{ registerErrors.lastName }}</p>
-          </div>
-
-          <div class="form-group">
-            <label>Email *</label>
-            <input type="email" v-model="registerForm.email" @blur="checkRegisterEmail()" />
-            <p class="error-msg" v-if="registerErrors.email">{{ registerErrors.email }}</p>
-          </div>
-
-          <div class="form-group">
-            <label>Password *</label>
-            <input
-              type="password"
-              v-model="registerForm.password"
-              @blur="checkRegisterPassword()"
-            />
-            <p class="error-msg" v-if="registerErrors.password">{{ registerErrors.password }}</p>
-          </div>
-
-          <div class="form-group">
-            <label>Role *</label>
-            <select v-model="registerForm.role">
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
-        </template>
-
-        <button type="submit">{{ isLogin ? 'Login' : 'Register' }}</button>
-      </form>
     </div>
   </div>
 </template>
 
 <style scoped>
-.dashboard-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Poppins', sans-serif;
-  padding: 20px;
-}
-
+/* keep visual style simple and rely on Bootstrap for responsiveness */
 .form-wrapper {
   background-color: #fafcf8;
   padding: 20px;
-  border: 1px solid #ccc;
-  width: 100%;
-  max-width: 400px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+  font-family: 'Poppins', sans-serif;
 }
 
-.toggle-container {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 15px;
-}
-
-.toggle-container button {
+.toggle-btn {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   padding: 6px 12px;
-  border: none;
-  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.18s;
+}
+.toggle-btn.active {
+  background: #fbcda1; /* palette accent */
+  border-color: rgba(0, 0, 0, 0.08);
+  font-weight: 600;
+}
+.toggle-btn:hover {
+  transform: translateY(-2px);
 }
 
-.toggle-container .active {
-  font-weight: bold;
+.form-label {
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
-.form-group {
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: column;
+.btn-primary {
+  background-color: #89b8a3;
+  border-color: #89b8a3;
 }
-
-input,
-select,
-button[type='submit'] {
-  padding: 8px;
-  margin-top: 4px;
+.btn-primary:hover {
+  background-color: #5c8b39;
+  border-color: #5c8b39;
 }
-
-button[type='submit'] {
-  width: 100%;
-  cursor: pointer;
-}
-
-.error-msg {
-  color: red;
-  font-size: 13px;
+.text-danger {
+  color: #c07436 !important;
 }
 </style>

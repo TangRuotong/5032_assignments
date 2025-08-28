@@ -1,10 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const form = ref({
   firstName: '',
   lastName: '',
   email: '',
+  phone: '',
   gender: '',
   resident: '',
   specialNeeds: '',
@@ -19,8 +20,23 @@ const events = ref([
   { id: '3', name: 'Community Mental Health Workshop' },
 ])
 
+const specialOptions = ref([
+  { id: '1', name: 'Allergies' },
+  { id: '2', name: 'Accessibility Requirement' },
+  { id: '3', name: 'Other' },
+])
+
 const errors = ref({})
 const showDogMessage = ref(false)
+const showOtherNeeds = ref(false)
+
+// Watch specialNeeds to toggle otherNeeds input
+watch(
+  () => form.value.specialNeeds,
+  (val) => {
+    showOtherNeeds.value = val === 'Other'
+  },
+)
 
 // Validators
 const validateFirstName = () => {
@@ -32,6 +48,9 @@ const validateLastName = () => {
 const validateEmail = () => {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   errors.value.email = re.test(form.value.email) ? '' : 'Invalid email address.'
+}
+const validatePhone = () => {
+  errors.value.phone = form.value.phone ? '' : ''
 }
 const validateGender = () => {
   errors.value.gender = form.value.gender ? '' : 'Gender is required.'
@@ -54,6 +73,7 @@ const handleSubmit = () => {
   validateFirstName()
   validateLastName()
   validateEmail()
+  validatePhone()
   validateGender()
   validateResident()
   validateReason()
@@ -64,18 +84,21 @@ const handleSubmit = () => {
     return
   }
 
-  // Save booking to localStorage
   const bookings = JSON.parse(localStorage.getItem('bookings') || '[]')
   bookings.push({ ...form.value })
   localStorage.setItem('bookings', JSON.stringify(bookings))
 
   alert('Booking submitted successfully!')
 
-  // Clear form
+  clearForm()
+}
+
+const clearForm = () => {
   form.value = {
     firstName: '',
     lastName: '',
     email: '',
+    phone: '',
     gender: '',
     resident: '',
     specialNeeds: '',
@@ -83,68 +106,65 @@ const handleSubmit = () => {
     reason: '',
     event: '',
   }
-
-  // Emit booking-complete for parent
-  emit('booking-complete')
+  showOtherNeeds.value = false
 }
 </script>
 
 <template>
-  <div class="booking-form-container">
-    <h2 class="form-title">Book Your Session</h2>
+  <div class="container py-5">
+    <h2 class="text-center mb-4">Book Your Session</h2>
     <form @submit.prevent="handleSubmit">
-      <div class="form-row">
-        <div class="form-group half-width">
-          <label for="firstName">First Name *</label>
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <label>First Name *</label>
           <input
             type="text"
-            id="firstName"
             v-model="form.firstName"
             @blur="validateFirstName"
-            :class="{ 'error-border': errors.firstName }"
-            placeholder="Enter your first name"
-            required
+            class="form-control"
+            :class="{ 'is-invalid': errors.firstName }"
           />
-          <p v-if="errors.firstName" class="error-msg">{{ errors.firstName }}</p>
+          <div v-if="errors.firstName" class="invalid-feedback">{{ errors.firstName }}</div>
         </div>
-        <div class="form-group half-width">
-          <label for="lastName">Last Name *</label>
+        <div class="col-sm-6">
+          <label>Last Name *</label>
           <input
             type="text"
-            id="lastName"
             v-model="form.lastName"
             @blur="validateLastName"
-            :class="{ 'error-border': errors.lastName }"
-            placeholder="Enter your last name"
-            required
+            class="form-control"
+            :class="{ 'is-invalid': errors.lastName }"
           />
-          <p v-if="errors.lastName" class="error-msg">{{ errors.lastName }}</p>
+          <div v-if="errors.lastName" class="invalid-feedback">{{ errors.lastName }}</div>
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="email">Email *</label>
-        <input
-          type="email"
-          id="email"
-          v-model="form.email"
-          @blur="validateEmail"
-          :class="{ 'error-border': errors.email }"
-          placeholder="Enter your email"
-          required
-        />
-        <p v-if="errors.email" class="error-msg">{{ errors.email }}</p>
+      <div class="row g-3 mt-2">
+        <div class="col-sm-6">
+          <label>Email *</label>
+          <input
+            type="email"
+            v-model="form.email"
+            @blur="validateEmail"
+            class="form-control"
+            :class="{ 'is-invalid': errors.email }"
+          />
+          <div v-if="errors.email" class="invalid-feedback">{{ errors.email }}</div>
+        </div>
+        <div class="col-sm-6">
+          <label>Phone</label>
+          <input type="text" v-model="form.phone" class="form-control" />
+        </div>
       </div>
 
-      <div class="form-row">
-        <div class="form-group half-width">
-          <label for="gender">Gender *</label>
+      <div class="row g-3 mt-2">
+        <div class="col-sm-6">
+          <label>Gender *</label>
           <select
-            id="gender"
             v-model="form.gender"
             @blur="validateGender"
-            :class="{ 'error-border': errors.gender }"
-            required
+            class="form-select"
+            :class="{ 'is-invalid': errors.gender }"
           >
             <option value="" disabled>Select your gender</option>
             <option value="male">Male</option>
@@ -152,150 +172,98 @@ const handleSubmit = () => {
             <option value="other">Other</option>
             <option value="prefer">Prefer not to say</option>
           </select>
-          <p v-if="errors.gender" class="error-msg">{{ errors.gender }}</p>
+          <div v-if="errors.gender" class="invalid-feedback">{{ errors.gender }}</div>
         </div>
-
-        <div class="form-group half-width">
-          <label for="resident">Are you an Australian resident? *</label>
+        <div class="col-sm-6">
+          <label>Australian Resident? *</label>
           <select
-            id="resident"
             v-model="form.resident"
             @blur="validateResident"
-            :class="{ 'error-border': errors.resident }"
-            required
+            class="form-select"
+            :class="{ 'is-invalid': errors.resident }"
           >
             <option value="" disabled>Select an option</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </select>
-          <p v-if="errors.resident" class="error-msg">{{ errors.resident }}</p>
+          <div v-if="errors.resident" class="invalid-feedback">{{ errors.resident }}</div>
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="event">Select Event *</label>
+      <div class="row g-3 mt-2">
+        <div class="col-sm-6">
+          <label>Special Requirements</label>
+          <select v-model="form.specialNeeds" class="form-select">
+            <option value="" disabled>Select an option</option>
+            <option v-for="opt in specialOptions" :key="opt.id" :value="opt.name">
+              {{ opt.name }}
+            </option>
+          </select>
+        </div>
+        <div class="col-sm-6" v-if="showOtherNeeds">
+          <label>Other Needs</label>
+          <input type="text" v-model="form.otherNeeds" class="form-control" />
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <label>Event *</label>
         <select
-          id="event"
           v-model="form.event"
           @blur="validateEvent"
-          :class="{ 'error-border': errors.event }"
-          required
+          class="form-select"
+          :class="{ 'is-invalid': errors.event }"
         >
           <option value="" disabled>Select an event</option>
           <option v-for="event in events" :key="event.id" :value="event.id">
             {{ event.name }}
           </option>
         </select>
-        <p v-if="errors.event" class="error-msg">{{ errors.event }}</p>
+        <div v-if="errors.event" class="invalid-feedback">{{ errors.event }}</div>
       </div>
 
-      <div class="form-group">
-        <label for="reason">Reason for Booking *</label>
+      <div class="mt-3">
+        <label>Reason for Booking *</label>
         <textarea
-          id="reason"
           v-model="form.reason"
           @input="checkDogKeyword"
           @blur="validateReason"
-          :class="{ 'error-border': errors.reason }"
-          placeholder="Tell us why you are booking"
-          required
+          class="form-control"
+          :class="{ 'is-invalid': errors.reason }"
         ></textarea>
-        <p v-if="errors.reason" class="error-msg">{{ errors.reason }}</p>
-        <p v-if="showDogMessage" class="info-msg">
+        <div v-if="errors.reason" class="invalid-feedback">{{ errors.reason }}</div>
+        <div v-if="showDogMessage" class="form-text text-success">
           🐶 You mentioned "dog"! Would you like to know more about our therapy dog programs?
-        </p>
+        </div>
       </div>
 
-      <button type="submit" class="submit-btn">Submit Booking</button>
+      <div class="d-flex mt-4 gap-2">
+        <button type="submit" class="btn btn-success flex-fill">Submit Booking</button>
+        <button type="button" class="btn btn-secondary flex-fill" @click="clearForm">
+          Clear Form
+        </button>
+      </div>
     </form>
   </div>
 </template>
 
 <style scoped>
-.booking-form-container {
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 25px;
-  background: linear-gradient(135deg, #fafcf8, #fde4e1);
-  border-radius: 25px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+.container {
+  max-width: 80vw;
+  background: #fafcf8;
+  padding: 30px;
+  border-radius: 20px;
   font-family: 'Poppins', sans-serif;
   color: #212615;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
-.form-title {
-  font-size: 1.8rem;
-  font-weight: 500;
-  text-align: center;
-  margin-bottom: 25px;
-  letter-spacing: 0.5px;
-}
-.form-row {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-.half-width {
-  flex: 1;
-  min-width: 120px;
-}
-.form-group {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-}
+
 label {
   font-weight: 500;
-  margin-bottom: 5px;
   color: #212615;
-  font-size: 0.95rem;
 }
-input,
-select,
+
 textarea {
-  padding: 12px;
-  border-radius: 15px;
-  border: 1px solid #b1c4d9;
-  font-size: 14px;
-  background-color: #ffffff;
-  transition: all 0.3s ease;
-}
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #89b8a3;
-  box-shadow: 0 0 8px rgba(137, 184, 163, 0.3);
-  outline: none;
-}
-.error-border {
-  border-color: #fbcda1 !important;
-  box-shadow: 0 0 8px rgba(251, 205, 161, 0.4);
-}
-.error-msg {
-  color: #c07436;
-  font-size: 13px;
-  margin-top: 5px;
-}
-.info-msg {
-  color: #5c8b39;
-  font-size: 13px;
-  margin-top: 5px;
-}
-.submit-btn {
-  width: 100%;
-  background-color: #89b8a3;
-  color: #212615;
-  font-weight: 600;
-  padding: 14px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-.submit-btn:hover {
-  background-color: #5c8b39;
-  color: #fff;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  min-height: 100px;
 }
 </style>
