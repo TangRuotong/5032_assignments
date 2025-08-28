@@ -20,20 +20,18 @@
 </template>
 
 <style scoped>
-/* Navbar container */
 .custom-navbar {
   display: flex;
   justify-content: center;
   padding: 15px 0;
   background: linear-gradient(135deg, #fafcf8, #fbcda1);
   border-radius: 50px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  font-family: 'Poppins', sans-serif; 
   margin: 20px auto;
   max-width: 900px;
 }
 
-/* Navbar list */
 .nav-list {
   display: flex;
   gap: 25px;
@@ -42,12 +40,10 @@
   padding: 0;
 }
 
-/* Navbar items */
 .nav-item {
   position: relative;
 }
 
-/* Links */
 .nav-link {
   padding: 10px 20px;
   border-radius: 30px;
@@ -58,35 +54,3 @@
   transition: all 0.3s ease;
   backdrop-filter: blur(2px);
 }
-
-/* Hover effect */
-.nav-link:hover {
-  background: #b5dcc6;
-  color: #000000;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Active link */
-.nav-link.active {
-  background: #89b8a3;
-  color: #000000;
-  font-weight: 600;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-
-@media screen and (max-width: 768px) {
-  .nav-list {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-  .custom-navbar {
-    border-radius: 30px;
-  }
-  .nav-link {
-    width: 120px;
-    text-align: center;
-  }
-}
-</style>

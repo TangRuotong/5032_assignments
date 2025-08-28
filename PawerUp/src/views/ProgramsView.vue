@@ -5,7 +5,7 @@
     <h1>Our Programs</h1>
 
     <!-- Private Sessions -->
-    <section id="private-sessions" class="program-section">
+    <section class="program-section">
       <h2>Private Therapy Sessions</h2>
       <p>
         One-on-one therapy dog sessions tailored to individual needs, focusing on mental health and
@@ -14,7 +14,7 @@
     </section>
 
     <!-- Session Calendar -->
-    <section id="calendar" class="program-section">
+    <section class="program-section">
       <h2>Session Calendar</h2>
       <p>
         Check our session calendar for upcoming therapy dog events and book your preferred timeslot.
@@ -22,17 +22,17 @@
     </section>
 
     <!-- Booking Form -->
-    <section id="booking" class="program-section">
+    <section class="program-section">
       <h2>Booking</h2>
       <p>
         Use our <router-link to="/booking">Booking Form</router-link> to reserve a session. After
-        booking, you can view your
+        booking, view your
         <router-link to="/booking-confirmation">Booking Confirmation</router-link>.
       </p>
     </section>
 
     <!-- Public Events -->
-    <section id="public-events" class="program-section">
+    <section class="program-section">
       <h2>Public Events</h2>
       <p>
         Participate in community events featuring therapy dogs, workshops, and mental health
@@ -41,13 +41,13 @@
     </section>
 
     <!-- Upcoming Events -->
-    <section id="upcoming-events" class="program-section">
+    <section class="program-section">
       <h2>Upcoming Events</h2>
       <p>Stay updated on future events and register early to secure your spot.</p>
     </section>
 
     <!-- Event Details -->
-    <section id="event-details" class="program-section">
+    <section class="program-section">
       <h2>Event Details</h2>
       <p>Learn more about individual events, including location, timing, and activities.</p>
     </section>
@@ -59,7 +59,7 @@
   max-width: 960px;
   margin: 30px auto;
   padding: 20px;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #003e4d;
   background: linear-gradient(135deg, #e0f7f4, #d0f0e0);
   border-radius: 15px;
@@ -69,6 +69,7 @@
   font-size: 2rem;
   text-align: center;
   margin-bottom: 30px;
+  font-weight: 300;
 }
 
 .program-section {
@@ -88,14 +89,16 @@
   font-size: 1.4rem;
   color: #00796b;
   margin-bottom: 8px;
+  font-weight: 300;
 }
 
 .programs-container p {
   font-size: 1rem;
   line-height: 1.6;
+  font-weight: 300;
 }
 
-/* Router links style for consistency */
+/* Router links style */
 .programs-container a {
   color: #004d40;
   text-decoration: underline;
