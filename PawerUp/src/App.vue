@@ -13,7 +13,7 @@
 
 <script setup></script>
 
-<style scoped>
+<style>
 nav {
   padding: 15px;
   text-align: center;

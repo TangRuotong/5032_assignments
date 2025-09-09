@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
-import BookingForm from '../components/BookingForm.vue'
-import ProgramsForm from '../views/ProgramsView.vue'
+import BookingView from '../views/BookingView.vue'
+import ProgramsView from '../views/ProgramsView.vue'
 import DashboardView from '../views/DashboardView.vue'
 
 const routes = [
@@ -19,12 +19,12 @@ const routes = [
   {
     path: '/booking',
     name: 'Booking',
-    component: BookingForm,
+    component: BookingView,
   },
   {
     path: '/programs',
     name: 'Programs',
-    component: ProgramsForm,
+    component: ProgramsView,
   },
   {
     path: '/dashboard',
