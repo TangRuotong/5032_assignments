@@ -21,14 +21,14 @@
 </template>
 
 <script setup>
-// import { useAuth } from '../auth'
-// import { useRouter } from 'vue-router'
+import { useAuth } from '../auth'
+import { useRouter } from 'vue-router'
 
-// const { isAuthenticated, logout } = useAuth()
-// const router = useRouter()
+const { isAuthenticated, logout } = useAuth()
+const router = useRouter()
 
-// const handleLogout = () => {
-//   logout()
-//   router.push({ name: 'login' })
-// }
+const handleLogout = () => {
+  logout()
+  router.push({ name: 'login' })
+}
 </script>

@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
-import { getFirestore, setDoc, doc } from 'firebase/firestore'
+import { getFirestore, setDoc, doc, getDoc } from 'firebase/firestore'
 
 const db = getFirestore()
 const router = useRouter()
@@ -10,36 +10,67 @@ const auth = getAuth()
 
 const email = ref('')
 const password = ref('')
-const isRegister = ref(true) // true=register, false=login
+const isRegister = ref(true)
+const role = ref('user')
 
-// switch between register and login
 const toggleMode = () => {
   isRegister.value = !isRegister.value
 }
 
-const register = () => {
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => {
-      console.log('Firebase Register Successful!')
+const register = async () => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value)
+    const user = userCredential.user
 
+    await setDoc(doc(db, 'users', user.uid), {
+      email: email.value,
+      role: role.value,
+      createdAt: new Date(),
+    })
+
+    console.log('User registered successfully!')
+
+    isRegister.value = false
+    email.value = ''
+    password.value = ''
+    role.value = 'user'
+  } catch (error) {
+    if (error.code === 'auth/email-already-in-use') {
+      alert('This email is already registered. Please sign in instead.')
       isRegister.value = false
-      email.value = ''
-      password.value = ''
-    })
-    .catch((error) => {
-      console.error(error.code)
-    })
+    } else {
+      console.error(error)
+    }
+  }
 }
 
-const signin = () => {
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => {
-      console.log('Firebase Sign In Successful!')
-      router.push('/booking')
-    })
-    .catch((error) => {
-      console.error(error.code)
-    })
+const signin = async () => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value)
+    const user = userCredential.user
+
+    const docRef = doc(db, 'users', user.uid)
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+      const userData = docSnap.data()
+      console.log('User role:', userData.role)
+
+      if (userData.role === 'admin') {
+        router.push('/')
+      } else {
+        router.push('/booking')
+      }
+    } else {
+      console.warn('User document not found in Firestore!')
+    }
+    // signInWithEmailAndPassword(auth, email.value, password.value).then(() => {
+    //   console.log('Firebase Sign In Successful!')
+    //   router.push('/booking')
+    // })
+  } catch (error) {
+    console.error(error)
+  }
 }
 </script>
 
@@ -54,6 +85,13 @@ const signin = () => {
 
         <p>
           <input type="password" placeholder="Password" v-model="password" class="form-control" />
+        </p>
+
+        <p v-if="isRegister">
+          <label> <input type="radio" name="role" value="user" v-model="role" /> User </label>
+          <label class="ms-3">
+            <input type="radio" name="role" value="admin" v-model="role" /> Admin
+          </label>
         </p>
 
         <p>

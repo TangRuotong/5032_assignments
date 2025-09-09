@@ -5,7 +5,6 @@
     <h1>Our Programs</h1>
 
     <div class="row g-3">
-      <!-- Private Sessions -->
       <div class="col-md-6 col-sm-6">
         <section class="program-section">
           <h2>Private Therapy Sessions</h2>
@@ -16,7 +15,6 @@
         </section>
       </div>
 
-      <!-- Session Calendar -->
       <div class="col-md-6 col-sm-6">
         <section class="program-section">
           <h2>Session Calendar</h2>
@@ -27,7 +25,6 @@
         </section>
       </div>
 
-      <!-- Booking Form -->
       <div class="col-md-6 col-sm-6">
         <section class="program-section">
           <h2>Booking</h2>
@@ -39,7 +36,6 @@
         </section>
       </div>
 
-      <!-- Public Events -->
       <div class="col-md-6 col-sm-6">
         <section class="program-section">
           <h2>Public Events</h2>
@@ -50,7 +46,6 @@
         </section>
       </div>
 
-      <!-- Upcoming Events -->
       <div class="col-md-6 col-sm-6">
         <section class="program-section">
           <h2>Upcoming Events</h2>
@@ -58,7 +53,6 @@
         </section>
       </div>
 
-      <!-- Event Details -->
       <div class="col-md-6 col-sm-6">
         <section class="program-section">
           <h2>Event Details</h2>
@@ -103,7 +97,6 @@
   color: #214a3f;
 }
 
-/* card / section */
 .program-section {
   background: rgba(255, 255, 255, 0.92);
   padding: 26px 22px;
