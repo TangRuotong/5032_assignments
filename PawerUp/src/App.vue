@@ -1,5 +1,11 @@
 <template>
-  <div id="app">
+  <header>
+    <BHeader />
+  </header>
+  <main class="container mt-4">
+    <router-view></router-view>
+  </main>
+  <!-- <div id="app">
     <nav>
       <router-link to="/">Home</router-link> | <router-link to="/about">About</router-link> |
       <router-link to="/booking">Booking</router-link> |
@@ -8,10 +14,12 @@
     </nav>
 
     <router-view />
-  </div>
+  </div> -->
 </template>
 
-<script setup></script>
+<script setup>
+import BHeader from './components/BHeader.vue'
+</script>
 
 <style>
 nav {

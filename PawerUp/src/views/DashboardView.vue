@@ -1,22 +1,21 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
-import { getFirestore, setDoc, doc, getDoc } from 'firebase/firestore'
+import { auth, db } from '@/firebase/init.js'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { setDoc, doc, getDoc } from 'firebase/firestore'
 
-const db = getFirestore()
 const router = useRouter()
-const auth = getAuth()
-
 const email = ref('')
 const password = ref('')
-const isRegister = ref(true)
+const isRegister = ref(false)
 const role = ref('user')
 
 const toggleMode = () => {
   isRegister.value = !isRegister.value
 }
 
+// register user only
 const register = async () => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value)
@@ -24,11 +23,11 @@ const register = async () => {
 
     await setDoc(doc(db, 'users', user.uid), {
       email: email.value,
-      role: role.value,
+      role: 'user',
       createdAt: new Date(),
     })
 
-    console.log('User registered successfully!')
+    alert('User registered successfully! Please login.')
 
     isRegister.value = false
     email.value = ''
@@ -36,7 +35,7 @@ const register = async () => {
     role.value = 'user'
   } catch (error) {
     if (error.code === 'auth/email-already-in-use') {
-      alert('This email is already registered. Please sign in instead.')
+      alert('This email is already registered. Please sign in.')
       isRegister.value = false
     } else {
       console.error(error)
@@ -57,19 +56,16 @@ const signin = async () => {
       console.log('User role:', userData.role)
 
       if (userData.role === 'admin') {
-        router.push('/')
+        router.push('/admin')
       } else {
         router.push('/booking')
       }
     } else {
-      console.warn('User document not found in Firestore!')
+      alert('No user data found. Please check your account.')
     }
-    // signInWithEmailAndPassword(auth, email.value, password.value).then(() => {
-    //   console.log('Firebase Sign In Successful!')
-    //   router.push('/booking')
-    // })
   } catch (error) {
     console.error(error)
+    alert('Login failed. Please check your email or password.')
   }
 }
 </script>
@@ -87,19 +83,19 @@ const signin = async () => {
           <input type="password" placeholder="Password" v-model="password" class="form-control" />
         </p>
 
-        <p v-if="isRegister">
+        <!-- <p v-if="!isRegister">
           <label> <input type="radio" name="role" value="user" v-model="role" /> User </label>
           <label class="ms-3">
             <input type="radio" name="role" value="admin" v-model="role" /> Admin
           </label>
-        </p>
+        </p> -->
 
         <p>
           <button v-if="isRegister" type="button" class="btn btn-primary w-100" @click="register">
-            Save to Firebase
+            Register
           </button>
           <button v-else type="button" class="btn btn-success w-100" @click="signin">
-            Sign in via Firebase
+            Sign In
           </button>
         </p>
 
