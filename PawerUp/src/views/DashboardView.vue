@@ -23,9 +23,10 @@ const validateEmail = () => {
 }
 
 const validatePassword = () => {
-  errors.value.password = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password.value)
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/
+  errors.value.password = regex.test(password.value)
     ? ''
-    : 'Password must be at least 6 characters and contain letters and numbers.'
+    : 'Password must be at least 6 characters and include uppercase, lowercase, number, and special character.'
   return !errors.value.password
 }
 
