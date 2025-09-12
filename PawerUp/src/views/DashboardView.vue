@@ -11,12 +11,37 @@ const password = ref('')
 const isRegister = ref(false)
 const role = ref('user')
 
+const errors = ref({
+  password: '',
+  email: '',
+})
+
+const validateEmail = () => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  errors.value.email = re.test(email.value) ? '' : 'Please enter a valid email address.'
+  return !errors.value.email
+}
+
+const validatePassword = () => {
+  errors.value.password = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password.value)
+    ? ''
+    : 'Password must be at least 6 characters and contain letters and numbers.'
+  return !errors.value.password
+}
+
 const toggleMode = () => {
   isRegister.value = !isRegister.value
 }
 
-// register user only
 const register = async () => {
+  if (!validateEmail()) {
+    alert(errors.value.email)
+    return
+  }
+  if (!validatePassword()) {
+    alert(errors.value.password)
+    return
+  }
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value)
     const user = userCredential.user
@@ -37,8 +62,11 @@ const register = async () => {
     if (error.code === 'auth/email-already-in-use') {
       alert('This email is already registered. Please sign in.')
       isRegister.value = false
+    } else if (error.code === 'auth/weak-password') {
+      alert('Password is too weak. Please use at least 6 characters.')
     } else {
       console.error(error)
+      alert('Registration failed. Please try again.')
     }
   }
 }
@@ -82,13 +110,6 @@ const signin = async () => {
         <p>
           <input type="password" placeholder="Password" v-model="password" class="form-control" />
         </p>
-
-        <!-- <p v-if="!isRegister">
-          <label> <input type="radio" name="role" value="user" v-model="role" /> User </label>
-          <label class="ms-3">
-            <input type="radio" name="role" value="admin" v-model="role" /> Admin
-          </label>
-        </p> -->
 
         <p>
           <button v-if="isRegister" type="button" class="btn btn-primary w-100" @click="register">

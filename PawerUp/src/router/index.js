@@ -8,6 +8,7 @@ import BookingView from '../views/BookingView.vue'
 import ProgramsView from '../views/ProgramsView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import AdminView from '../views/AdminView.vue'
+import UserboardView from '../views/UserboardView.vue'
 
 const routes = [
   {
@@ -35,6 +36,11 @@ const routes = [
     name: 'Admin',
     component: AdminView,
     meta: { requiresAdmin: true },
+  },
+  {
+    path: '/userboard',
+    name: 'Userboard',
+    component: UserboardView,
   },
   {
     path: '/booking',

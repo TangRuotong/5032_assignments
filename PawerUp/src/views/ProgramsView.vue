@@ -1,153 +1,174 @@
-<script setup></script>
+<script setup>
+import { ratingsStore } from '../stores/ratingStore.js'
+</script>
 
 <template>
-  <div class="container programs-container py-4">
-    <h1>Our Programs</h1>
+  <section class="programs-view-section py-5">
+    <div class="container">
+      <h1 class="text-center mb-5">Our Programs</h1>
 
-    <div class="row g-3">
-      <div class="col-md-6 col-sm-6">
-        <section class="program-section">
-          <h2>Private Therapy Sessions</h2>
-          <p>
-            One-on-one therapy dog sessions tailored to individual needs, focusing on mental health
-            and wellbeing.
-          </p>
-        </section>
+      <div v-for="booking in ratingsStore.bookings" :key="booking.id" class="program-bar mb-4">
+        <div
+          class="program-content d-flex flex-column flex-md-row align-items-center justify-content-between p-4"
+        >
+          <div class="program-info">
+            <h2>{{ booking.event }}</h2>
+            <p>
+              Description of {{ booking.event }} goes here. Lorem ipsum dolor sit amet, consectetur
+              adipiscing elit.
+            </p>
+            <p v-if="booking.ratings.length > 0" class="text-warning mb-0">
+              ⭐Recommended index: {{ ratingsStore.getAverage(booking.id) }} ({{
+                booking.ratings.length
+              }}
+              ratings)
+            </p>
+            <p v-else class="text-muted mb-0">No ratings yet</p>
+          </div>
+          <div class="program-action mt-3 mt-md-0">
+            <router-link :to="`/booking`" class="btn btn-primary">Book Now</router-link>
+          </div>
+        </div>
       </div>
 
-      <div class="col-md-6 col-sm-6">
-        <section class="program-section">
-          <h2>Session Calendar</h2>
-          <p>
-            Check our session calendar for upcoming therapy dog events and book your preferred
-            timeslot.
-          </p>
-        </section>
-      </div>
-
-      <div class="col-md-6 col-sm-6">
-        <section class="program-section">
-          <h2>Booking</h2>
-          <p>
-            Use our <router-link to="/booking">Booking Form</router-link> to reserve a session.
-            After booking, view your
-            <router-link to="/booking-confirmation">Booking Confirmation</router-link>.
-          </p>
-        </section>
-      </div>
-
-      <div class="col-md-6 col-sm-6">
-        <section class="program-section">
-          <h2>Public Events</h2>
-          <p>
-            Participate in community events featuring therapy dogs, workshops, and mental health
-            activities.
-          </p>
-        </section>
-      </div>
-
-      <div class="col-md-6 col-sm-6">
-        <section class="program-section">
-          <h2>Upcoming Events</h2>
-          <p>Stay updated on future events and register early to secure your spot.</p>
-        </section>
-      </div>
-
-      <div class="col-md-6 col-sm-6">
-        <section class="program-section">
-          <h2>Event Details</h2>
-          <p>Learn more about individual events, including location, timing, and activities.</p>
-        </section>
+      <div class="row mt-5 g-4">
+        <div class="col-md-6">
+          <div class="extra-bar p-4">
+            <h3>Session Calendar</h3>
+            <p>
+              Check our session calendar for upcoming therapy dog events and book your preferred
+              timeslot.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="extra-bar p-4">
+            <h3>Booking</h3>
+            <p>
+              Use our <router-link to="/booking">Booking Form</router-link> to reserve a session.
+              After booking, view your
+              <router-link to="/userBoard">Booking Confirmation</router-link>.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="extra-bar p-4">
+            <h3>Public Events</h3>
+            <p>
+              Participate in community events featuring therapy dogs, workshops, and mental health
+              activities.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="extra-bar p-4">
+            <h3>Upcoming Events</h3>
+            <p>Stay updated on future events and register early to secure your spot.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="extra-bar p-4">
+            <h3>Event Details</h3>
+            <p>Learn more about individual events, including location, timing, and activities.</p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
-.programs-container {
-  max-width: 960px;
-  margin: 32px auto;
-  padding: 48px 28px;
+.programs-view-section {
   font-family: 'Poppins', sans-serif;
-  color: #003e4d;
-  background: linear-gradient(135deg, #e0f7f4 0%, #d0f0e0 100%);
-  border-radius: 20px;
+  background: url('https://live.staticflickr.com/4134/4805426720_90b216340b_b.jpg') center/cover
+    no-repeat;
+  padding-top: 800px;
+  padding-bottom: 800px;
   position: relative;
-  overflow: visible;
 }
 
-.programs-container::before {
-  content: '';
-  position: absolute;
-  width: 320px;
-  height: 180px;
-  right: -40px;
-  top: -30px;
-  background: radial-gradient(circle at 30% 30%, rgba(177, 196, 217, 0.12), transparent 40%);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.programs-container h1 {
-  font-size: 2.6rem;
-  text-align: center;
-  margin-bottom: 28px;
-  font-weight: 400;
-  letter-spacing: 0.6px;
-  color: #214a3f;
-}
-
-.program-section {
-  background: rgba(255, 255, 255, 0.92);
-  padding: 26px 22px;
-  border-radius: 14px;
-  border: 1px solid rgba(33, 74, 63, 0.04);
-  box-shadow: 0 8px 26px rgba(16, 24, 32, 0.06);
-  transition:
-    transform 0.22s ease,
-    box-shadow 0.22s ease;
-  min-height: 150px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.program-section:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 40px rgba(16, 24, 32, 0.08);
-}
-
-.programs-container h2 {
-  font-size: 1.45rem;
-  color: #33511c;
-  margin-bottom: 10px;
-  font-weight: 400;
-  line-height: 1.1;
-}
-
-.programs-container p {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #2a3d35;
-  margin: 0;
-  font-weight: 300;
-}
-
-.programs-container a {
-  color: #004d40;
-  text-decoration: underline;
+.programs-view-section h1 {
   font-weight: 600;
+  color: #fdf8f8;
+  letter-spacing: 0.6px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
 }
 
-.programs-container a:hover {
-  color: #00796b;
+.program-bar {
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid #eee;
+  color: #333;
+  overflow: hidden;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 
-.row > .col-md-6 > .program-section {
-  margin-bottom: 0;
+.program-bar:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
 }
 
-.programs-container .row {
-  gap: 18px;
+.program-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.program-info h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #16a6e0;
+}
+
+.program-info p {
+  font-weight: 300;
+  line-height: 1.5;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.program-action .btn-primary {
+  background: #16a6e0;
+  border: none;
+  border-radius: 10px;
+  font-weight: 500;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.program-action .btn-primary:hover {
+  background: #16a6e0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(249, 109, 0, 0.3);
+}
+
+.extra-bar {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #eee;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+}
+
+.extra-bar:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.extra-bar h3 {
+  font-weight: 600;
+  color: #16a6e0;
+  margin-bottom: 10px;
+}
+
+.extra-bar p {
+  font-weight: 300;
+  line-height: 1.6;
+  color: #555;
 }
 </style>
