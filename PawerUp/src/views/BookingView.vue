@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
+import bookPic from '@/assets/icons/bookPic.jpg?url'
 
 const form = ref({
   firstName: '',
@@ -14,7 +15,6 @@ const form = ref({
   event: '',
 })
 
-// Simple sanitization to prevent basic XSS
 const sanitizeInput = (str) => str.replace(/[<>]/g, '')
 form.value.reason = sanitizeInput(form.value.reason)
 
@@ -120,7 +120,7 @@ const clearForm = () => {
         <div class="col-lg-6">
           <div class="form-side">
             <div class="title-bar"></div>
-            <h2 class="mb-4">🐶Book Your Session</h2>
+            <h2 class="mb-4">Book Your Session</h2>
             <form @submit.prevent="handleSubmit">
               <div class="row g-3">
                 <div class="col-sm-6">
@@ -271,8 +271,7 @@ const clearForm = () => {
   font-family: 'Poppins', sans-serif;
 }
 .img-side {
-  background: url('https://live.staticflickr.com/7515/27369209806_1b93f7a85e_b.jpg') center/cover
-    no-repeat;
+  background: url(${bookPic}) center/cover no-repeat;
   min-height: 600px;
   max-height: 800px;
   border-radius: 0 20px 20px 0;

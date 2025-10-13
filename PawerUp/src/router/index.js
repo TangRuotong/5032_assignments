@@ -9,6 +9,7 @@ import ProgramsView from '../views/ProgramsView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import AdminView from '../views/AdminView.vue'
 import UserboardView from '../views/UserboardView.vue'
+import SendEmail from '../views/SendEmail.vue'
 
 const routes = [
   {
@@ -46,6 +47,12 @@ const routes = [
     path: '/booking',
     name: 'Booking',
     component: BookingView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/sendemail',
+    name: 'email',
+    component: SendEmail,
     meta: { requiresAuth: true },
   },
 ]

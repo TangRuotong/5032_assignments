@@ -2,19 +2,9 @@
   <header>
     <BHeader />
   </header>
-  <main class="container mt-4">
+  <main class="page-main">
     <router-view></router-view>
   </main>
-  <!-- <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> | <router-link to="/about">About</router-link> |
-      <router-link to="/booking">Booking</router-link> |
-      <router-link to="/programs">Programs</router-link> |
-      <router-link to="/dashboard">Dashboard</router-link>
-    </nav>
-
-    <router-view />
-  </div> -->
 </template>
 
 <script setup>
@@ -25,7 +15,7 @@ import BHeader from './components/BHeader.vue'
 nav {
   padding: 15px;
   text-align: center;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
 router-link {
@@ -42,5 +32,10 @@ router-link:hover {
 router-link.router-link-active {
   font-weight: 600;
   color: #5c8b39;
+}
+.page-main {
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 </style>

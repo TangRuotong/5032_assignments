@@ -1,174 +1,258 @@
 <script setup>
-import { ratingsStore } from '../stores/ratingStore.js'
+import { useRouter } from 'vue-router'
+import privateSessionImg from '@/assets/icons/privateSession.jpg?url'
+import publicEventImg from '@/assets/icons/publicEvent.jpg?url'
+
+const router = useRouter()
+const goToPrivate = () => router.push('/PriSessionView')
+const goToPublic = () => router.push('/PuEventView')
 </script>
 
 <template>
-  <section class="programs-view-section py-5">
-    <div class="container">
-      <h1 class="text-center mb-5">Our Programs</h1>
+  <div class="programs-wrapper container-fluid px-4 py-5">
+    <div class="text-center mb-5">
+      <h1 class="main-title">Our Programs</h1>
+      <p class="main-intro">
+        Youth-focused therapy with certified therapy dogs, designed to bring calm and confidence
+        through connection.
+      </p>
+    </div>
 
-      <div v-for="booking in ratingsStore.bookings" :key="booking.id" class="program-bar mb-4">
-        <div
-          class="program-content d-flex flex-column flex-md-row align-items-center justify-content-between p-4"
-        >
-          <div class="program-info">
-            <h2>{{ booking.event }}</h2>
-            <p>
-              Description of {{ booking.event }} goes here. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit.
+    <div class="row justify-content-center gy-5 mb-5">
+      <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8 col-xxl-7">
+        <div class="about-block p-4 p-md-5">
+          <h2 class="block-title">About Our Platform</h2>
+          <p class="block-text">
+            We've built a modern web platform for a Victoria-based youth mental health nonprofit. It
+            helps young people connect with certified therapy dogs on campuses and in community
+            spaces, providing stress-free, friendly support.
+          </p>
+          <p class="block-text">
+            You can book short sessions, discover pop-up events, meet our volunteers and therapy
+            dogs, and read stories from other young people to feel supported and connected.
+            Everything is designed to be easy, accessible, and inclusive—helping you take care of
+            your mental wellbeing without pressure or stigma.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="floating-panels row justify-content-center gx-4 gy-5">
+      <div class="col-12 col-md-6">
+        <div class="panel" tabindex="0">
+          <img :src="privateSessionImg" alt="Private Session" class="panel-img" />
+          <div class="title-static left">Private Sessions</div>
+          <div class="panel-overlay left">
+            <h3 class="overlay-title">Private Sessions</h3>
+            <p class="overlay-desc">
+              One-to-one youth-oriented sessions for anxiety, exam stress, social withdrawal, trauma
+              reactions, and emotional regulation. Small confidential settings with tailored pacing
+              and measurable goals to build resilience and coping skills.
             </p>
-            <p v-if="booking.ratings.length > 0" class="text-warning mb-0">
-              ⭐Recommended index: {{ ratingsStore.getAverage(booking.id) }} ({{
-                booking.ratings.length
-              }}
-              ratings)
-            </p>
-            <p v-else class="text-muted mb-0">No ratings yet</p>
-          </div>
-          <div class="program-action mt-3 mt-md-0">
-            <router-link :to="`/booking`" class="btn btn-primary">Book Now</router-link>
+            <button class="btn-learn" @click.stop="goToPrivate">Learn more & book</button>
           </div>
         </div>
       </div>
 
-      <div class="row mt-5 g-4">
-        <div class="col-md-6">
-          <div class="extra-bar p-4">
-            <h3>Session Calendar</h3>
-            <p>
-              Check our session calendar for upcoming therapy dog events and book your preferred
-              timeslot.
+      <div class="col-12 col-md-6">
+        <div class="panel" tabindex="0">
+          <img :src="publicEventImg" alt="Public Event" class="panel-img" />
+          <div class="title-static right">Public Programs</div>
+          <div class="panel-overlay right">
+            <h3 class="overlay-title">Public Programs</h3>
+            <p class="overlay-desc">
+              Mobile services for schools, universities, and community venues. Short, stigma-free
+              pop-ups and workshops that boost peer connection, build coping skills, and improve
+              wellbeing at scale.
             </p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="extra-bar p-4">
-            <h3>Booking</h3>
-            <p>
-              Use our <router-link to="/booking">Booking Form</router-link> to reserve a session.
-              After booking, view your
-              <router-link to="/userBoard">Booking Confirmation</router-link>.
-            </p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="extra-bar p-4">
-            <h3>Public Events</h3>
-            <p>
-              Participate in community events featuring therapy dogs, workshops, and mental health
-              activities.
-            </p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="extra-bar p-4">
-            <h3>Upcoming Events</h3>
-            <p>Stay updated on future events and register early to secure your spot.</p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="extra-bar p-4">
-            <h3>Event Details</h3>
-            <p>Learn more about individual events, including location, timing, and activities.</p>
+            <button class="btn-learn" @click.stop="goToPublic">Therapy services</button>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <style scoped>
-.programs-view-section {
+.programs-wrapper {
   font-family: 'Poppins', sans-serif;
-  background: url('https://live.staticflickr.com/4134/4805426720_90b216340b_b.jpg') center/cover
-    no-repeat;
-  padding-top: 800px;
-  padding-bottom: 800px;
-  position: relative;
+  color: #073b6b;
+  background-color: #ffffff;
 }
 
-.programs-view-section h1 {
-  font-weight: 600;
-  color: #fdf8f8;
-  letter-spacing: 0.6px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+.main-title {
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 900;
+  color: #008b8b;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-.program-bar {
-  border-radius: 16px;
-  background: #fff;
-  border: 1px solid #eee;
-  color: #333;
-  overflow: hidden;
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s;
-}
-
-.program-bar:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
-}
-
-.program-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-}
-
-.program-info h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #16a6e0;
-}
-
-.program-info p {
-  font-weight: 300;
-  line-height: 1.5;
-  margin-bottom: 6px;
-  color: #555;
-}
-
-.program-action .btn-primary {
-  background: #16a6e0;
-  border: none;
-  border-radius: 10px;
+.main-intro {
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  color: #006666;
   font-weight: 500;
-  color: #fff;
-  transition: 0.3s;
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.7;
 }
 
-.program-action .btn-primary:hover {
-  background: #16a6e0;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(249, 109, 0, 0.3);
-}
-
-.extra-bar {
-  background: #fff;
+.about-block {
+  background: rgba(0, 139, 139, 0.06);
   border-radius: 16px;
-  border: 1px solid #eee;
+}
+
+.block-title {
+  color: #008b8b;
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.block-text {
+  font-size: 1.06rem;
+  color: #004c4c;
+  font-weight: 500;
+  line-height: 1.78;
+  margin-bottom: 12px;
+}
+
+.floating-panels {
+  margin-top: 40px;
+}
+
+.panel {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.panel-img {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  object-fit: cover;
+  display: block;
+}
+
+.title-static {
+  position: absolute;
+  top: 18px;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: clamp(1.8rem, 3.8vw, 3rem);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.45),
+    0 2px 6px rgba(0, 0, 0, 0.6);
   transition:
-    transform 0.3s,
-    box-shadow 0.3s;
+    opacity 220ms ease,
+    transform 220ms ease;
+  pointer-events: none;
+}
+.title-static.left {
+  left: 20px;
+  text-align: left;
+}
+.title-static.right {
+  right: 20px;
+  text-align: right;
 }
 
-.extra-bar:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+.panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.15) 30%,
+    rgba(0, 0, 0, 0.55) 75%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 24px;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 280ms ease;
+  pointer-events: none;
+}
+.panel-overlay.left {
+  align-items: flex-start;
+  text-align: left;
+}
+.panel-overlay.right {
+  align-items: flex-end;
+  text-align: right;
 }
 
-.extra-bar h3 {
-  font-weight: 600;
-  color: #16a6e0;
-  margin-bottom: 10px;
+.overlay-title {
+  font-size: clamp(1.7rem, 2.6vw, 2.2rem);
+  font-weight: 800;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
 }
 
-.extra-bar p {
-  font-weight: 300;
-  line-height: 1.6;
-  color: #555;
+.overlay-desc {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.55;
+  max-width: 92%;
+}
+
+.btn-learn {
+  background-color: #008b8b;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 26px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    transform 0.15s ease;
+}
+.panel-overlay.right .btn-learn {
+  align-self: flex-end;
+}
+.panel-overlay.left .btn-learn {
+  align-self: flex-start;
+}
+.btn-learn:hover {
+  background-color: #007575;
+  transform: translateY(-1px);
+}
+
+.panel:hover .panel-overlay,
+.panel:focus-within .panel-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.panel:hover .title-static,
+.panel:focus-within .title-static {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+@media (max-width: 992px) {
+  .panel-img {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-title {
+    font-size: 2.2rem;
+  }
+  .overlay-title {
+    font-size: 1.5rem;
+  }
+  .overlay-desc {
+    font-size: 0.95rem;
+  }
 }
 </style>
