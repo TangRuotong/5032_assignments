@@ -28,6 +28,9 @@
           <router-link v-if="userRole === 'user'" class="nav-link me-2" to="/booking"
             >Booking</router-link
           >
+          <router-link v-if="userRole === 'user'" class="nav-link me-2" to="/sendemail"
+            >Email</router-link
+          >
           <router-link v-if="userRole === 'admin'" class="nav-link me-2" to="/admin"
             >Admin Page</router-link
           >
@@ -73,7 +76,7 @@ const handleLogout = () => {
   align-items: center;
 }
 .nav-logo {
-  height: 70px;
+  height: 30px;
   width: auto;
   object-fit: contain;
 }

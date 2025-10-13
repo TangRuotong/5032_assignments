@@ -25,7 +25,7 @@ import BHeader from './components/BHeader.vue'
 nav {
   padding: 15px;
   text-align: center;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
 router-link {
