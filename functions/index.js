@@ -1,32 +1,54 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+const functions = require("firebase-functions");
+const sgMail = require("@sendgrid/mail");
 
-const {setGlobalOptions} = require("firebase-functions");
-const {onRequest} = require("firebase-functions/https");
-const logger = require("firebase-functions/logger");
+sgMail.setApiKey(functions.config().sendgrid.key);
 
-// For cost control, you can set the maximum number of containers that can be
-// running at the same time. This helps mitigate the impact of unexpected
-// traffic spikes by instead downgrading performance. This limit is a
-// per-function limit. You can override the limit for each function using the
-// `maxInstances` option in the function's options, e.g.
-// `onRequest({ maxInstances: 5 }, (req, res) => { ... })`.
-// NOTE: setGlobalOptions does not apply to functions using the v1 API. V1
-// functions should each use functions.runWith({ maxInstances: 10 }) instead.
-// In the v1 API, each function can only serve one request per container, so
-// this will be the maximum concurrent request count.
-setGlobalOptions({ maxInstances: 10 });
+exports.sendContact = functions.https.onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") return res.status(204).send("");
+  if (req.method !== "POST")
+    return res.status(405).send("Only POST requests are allowed");
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+  const { name, email, phone, service, message, source, attachment } = req.body;
+  if (!name || !email || !message || !service)
+    return res
+      .status(400)
+      .send({ success: false, error: "Missing required fields" });
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+  const msg = {
+    to: "tina1319980173@gmail.com",
+    from: {
+      email: "tina1319980173@gmail.com",
+      name: name + " (via PawerUp Contact Form)",
+    },
+    replyTo: email,
+    subject: `New enquiry about ${service}`,
+    text: `Name: ${name}\nEmail: ${email}\nPhone: ${
+      phone || "N/A"
+    }\nService: ${service}\nSource: ${source || "N/A"}\n\nMessage:\n${message}`,
+  };
+
+  if (attachment) {
+    msg.attachments = [
+      {
+        content: attachment.content,
+        filename: attachment.filename,
+        type: attachment.type,
+        disposition: "attachment",
+      },
+    ];
+  }
+
+  try {
+    await sgMail.send(msg);
+    console.log("Email sent from:", email, "about:", service);
+    return res
+      .status(200)
+      .send({ success: true, message: "Email sent successfully" });
+  } catch (error) {
+    console.error("SendGrid error:", error);
+    return res.status(500).send({ success: false, error: error.message });
+  }
+});

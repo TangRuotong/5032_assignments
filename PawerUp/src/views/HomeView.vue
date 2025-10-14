@@ -1,3 +1,41 @@
+<script setup>
+import { ref } from 'vue'
+import homePic from '@/assets/icons/homePic.jpg?url'
+
+const offers = ref([
+  {
+    id: 1,
+    title: 'Campus Sessions',
+    desc: 'Short, stress-free therapy dog sessions at universities and TAFEs—helping manage study stress and build social connection.',
+  },
+  {
+    id: 2,
+    title: 'Community Events',
+    desc: 'Pop-up programs at libraries, festivals, and youth hubs—making mental health conversations approachable and inclusive.',
+  },
+  {
+    id: 3,
+    title: 'Volunteer & Dog Teams',
+    desc: "Certified volunteers and therapy dogs bringing calm energy and emotional support where it's needed most.",
+  },
+  {
+    id: 4,
+    title: 'Workshops & Talks',
+    desc: 'Interactive wellbeing workshops focusing on empathy, self-regulation, and the science of connection.',
+  },
+  {
+    id: 5,
+    title: 'Therapy Dog Certification',
+    desc: 'Our certification pathway equips qualified teams to deliver emotional support in schools and organizations.',
+  },
+  {
+    id: 6,
+    title: 'Partner Programs',
+    desc: 'Collaborations with universities, councils, and mental health organizations for youth wellbeing initiatives.',
+  },
+])
+</script>
+
 <template>
   <div class="home-wrapper">
     <section class="hero-section" :style="{ backgroundImage: `url(${homePic})` }">
@@ -63,44 +101,6 @@
     </section>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import homePic from '@/assets/icons/homePic.jpg?url'
-
-const offers = ref([
-  {
-    id: 1,
-    title: 'Campus Sessions',
-    desc: 'Short, stress-free therapy dog sessions at universities and TAFEs—helping manage study stress and build social connection.',
-  },
-  {
-    id: 2,
-    title: 'Community Events',
-    desc: 'Pop-up programs at libraries, festivals, and youth hubs—making mental health conversations approachable and inclusive.',
-  },
-  {
-    id: 3,
-    title: 'Volunteer & Dog Teams',
-    desc: "Certified volunteers and therapy dogs bringing calm energy and emotional support where it's needed most.",
-  },
-  {
-    id: 4,
-    title: 'Workshops & Talks',
-    desc: 'Interactive wellbeing workshops focusing on empathy, self-regulation, and the science of connection.',
-  },
-  {
-    id: 5,
-    title: 'Therapy Dog Certification',
-    desc: 'Our certification pathway equips qualified teams to deliver emotional support in schools and organizations.',
-  },
-  {
-    id: 6,
-    title: 'Partner Programs',
-    desc: 'Collaborations with universities, councils, and mental health organizations for youth wellbeing initiatives.',
-  },
-])
-</script>
 
 <style scoped>
 .home-wrapper {

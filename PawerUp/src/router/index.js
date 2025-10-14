@@ -9,7 +9,9 @@ import ProgramsView from '../views/ProgramsView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import AdminView from '../views/AdminView.vue'
 import UserboardView from '../views/UserboardView.vue'
-import SendEmail from '../views/SendEmail.vue'
+import ContactUs from '../views/ContactUs.vue'
+import CoursesTable from '../views/CoursesTable.vue'
+import DogsTable from '../views/DogsTable.vue'
 
 const routes = [
   {
@@ -26,6 +28,16 @@ const routes = [
     path: '/programs',
     name: 'Programs',
     component: ProgramsView,
+  },
+  {
+    path: '/courses',
+    name: 'Courses',
+    component: CoursesTable,
+  },
+  {
+    path: '/dogs',
+    name: 'Dogs',
+    component: DogsTable,
   },
   {
     path: '/dashboard',
@@ -50,10 +62,9 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/sendemail',
-    name: 'email',
-    component: SendEmail,
-    meta: { requiresAuth: true },
+    path: '/contactus',
+    name: 'contactus',
+    component: ContactUs,
   },
 ]
 
