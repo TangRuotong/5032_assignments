@@ -91,6 +91,12 @@ onBeforeUnmount(() => {
             <router-link class="dropdown-item" to="/programs" @click="showPrograms = false"
               >Overview</router-link
             >
+            <router-link class="dropdown-item" to="/puevent" @click="showPrograms = false"
+              >Public Events</router-link
+            >
+            <router-link class="dropdown-item" to="/prisession" @click="showPrograms = false"
+              >Private Sessions</router-link
+            >
             <router-link class="dropdown-item" to="/courses" @click="showPrograms = false"
               >Courses</router-link
             >

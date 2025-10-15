@@ -4,8 +4,8 @@ import privateSessionImg from '@/assets/icons/privateSession.jpg?url'
 import publicEventImg from '@/assets/icons/publicEvent.jpg?url'
 
 const router = useRouter()
-const goToPrivate = () => router.push('/PriSessionView')
-const goToPublic = () => router.push('/PuEventView')
+const goToPrivate = () => router.push('/prisession')
+const goToPublic = () => router.push('/puevent')
 </script>
 
 <template>

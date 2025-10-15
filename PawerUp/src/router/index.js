@@ -6,6 +6,8 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import BookingView from '../views/BookingView.vue'
 import ProgramsView from '../views/ProgramsView.vue'
+import PriSessionView from '../views/PriSessionView.vue'
+import PuEventView from '../views/PuEventView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import AdminView from '../views/AdminView.vue'
 import UserboardView from '../views/UserboardView.vue'
@@ -65,6 +67,16 @@ const routes = [
     path: '/contactus',
     name: 'contactus',
     component: ContactUs,
+  },
+  {
+    path: '/puevent',
+    name: 'puevent',
+    component: PuEventView,
+  },
+  {
+    path: '/prisession',
+    name: 'prisession',
+    component: PriSessionView,
   },
 ]
 
