@@ -1,44 +1,9 @@
-<script setup>
-import { ref } from 'vue'
-import homePic from '@/assets/icons/homePic.jpg?url'
-
-const offers = ref([
-  {
-    id: 1,
-    title: 'Campus Sessions',
-    desc: 'Short, stress-free therapy dog sessions at universities and TAFEs—helping manage study stress and build social connection.',
-  },
-  {
-    id: 2,
-    title: 'Community Events',
-    desc: 'Pop-up programs at libraries, festivals, and youth hubs—making mental health conversations approachable and inclusive.',
-  },
-  {
-    id: 3,
-    title: 'Volunteer & Dog Teams',
-    desc: "Certified volunteers and therapy dogs bringing calm energy and emotional support where it's needed most.",
-  },
-  {
-    id: 4,
-    title: 'Workshops & Talks',
-    desc: 'Interactive wellbeing workshops focusing on empathy, self-regulation, and the science of connection.',
-  },
-  {
-    id: 5,
-    title: 'Therapy Dog Certification',
-    desc: 'Our certification pathway equips qualified teams to deliver emotional support in schools and organizations.',
-  },
-  {
-    id: 6,
-    title: 'Partner Programs',
-    desc: 'Collaborations with universities, councils, and mental health organizations for youth wellbeing initiatives.',
-  },
-])
-</script>
-
 <template>
   <div class="home-wrapper">
     <section class="hero-section" :style="{ backgroundImage: `url(${homePic})` }">
+      <span class="visually-hidden">
+        Background image showing youth with therapy dogs during wellbeing session
+      </span>
       <div class="hero-text text-center">
         <h1 class="hero-title">Therapy Dogs for Youth Wellbeing</h1>
         <p class="hero-subtitle">
@@ -48,6 +13,7 @@ const offers = ref([
       </div>
     </section>
 
+    ```
     <section class="intro-section py-5 px-4">
       <div class="container-fluid">
         <div class="row justify-content-center gy-5">
@@ -60,7 +26,7 @@ const offers = ref([
               loneliness in safe, stigma-free ways.
             </p>
 
-            <h2 class="section-heading">Why Therapy Dogs?</h2>
+            <h3 class="section-subheading">Why Therapy Dogs?</h3>
             <p>
               Interacting with therapy dogs has been shown to reduce cortisol levels, enhance mood,
               and promote social connection. At PawerUp, each visit is more than a moment of
@@ -99,15 +65,54 @@ const offers = ref([
         <button class="cta-button">Join Us</button>
       </div>
     </section>
+    ```
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+import homePic from '@/assets/icons/homePic.jpg?url'
+
+const offers = ref([
+  {
+    id: 1,
+    title: 'Campus Sessions',
+    desc: 'Short, stress-free therapy dog sessions at universities and TAFEs—helping manage study stress and build social connection.',
+  },
+  {
+    id: 2,
+    title: 'Community Events',
+    desc: 'Pop-up programs at libraries, festivals, and youth hubs—making mental health conversations approachable and inclusive.',
+  },
+  {
+    id: 3,
+    title: 'Volunteer & Dog Teams',
+    desc: "Certified volunteers and therapy dogs bringing calm energy and emotional support where it's needed most.",
+  },
+  {
+    id: 4,
+    title: 'Workshops & Talks',
+    desc: 'Interactive wellbeing workshops focusing on empathy, self-regulation, and the science of connection.',
+  },
+  {
+    id: 5,
+    title: 'Therapy Dog Certification',
+    desc: 'Our certification pathway equips qualified teams to deliver emotional support in schools and organizations.',
+  },
+  {
+    id: 6,
+    title: 'Partner Programs',
+    desc: 'Collaborations with universities, councils, and mental health organizations for youth wellbeing initiatives.',
+  },
+])
+</script>
 
 <style scoped>
 .home-wrapper {
   width: 100%;
   font-family: 'Poppins', sans-serif;
   color: #212615;
-  background-color: #ffffff;
+  background-color: #176ebc;
   overflow-x: hidden;
 }
 
@@ -133,7 +138,7 @@ const offers = ref([
 .hero-title {
   font-size: clamp(2.6rem, 5vw, 4.8rem);
   font-weight: 900;
-  color: #2b8ce1;
+  color: #005d83;
   letter-spacing: 1px;
   text-transform: uppercase;
   margin-bottom: 20px;
@@ -163,6 +168,10 @@ const offers = ref([
   margin-bottom: 25px;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+.section-subheading {
+  color: #2b8ce1;
 }
 
 .info-card {
@@ -206,11 +215,13 @@ const offers = ref([
 }
 
 .cta-button {
-  background-color: #2b8ce1;
+  background-color: #176ebc;
   color: white;
   border: none;
   border-radius: 30px;
-  padding: 12px 36px;
+  padding: 14px 40px;
+  min-width: 48px;
+  min-height: 48px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
@@ -218,7 +229,18 @@ const offers = ref([
 }
 
 .cta-button:hover {
-  background-color: #176ebc;
+  background-color: #0e5494;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
 }
 
 @media (max-width: 768px) {

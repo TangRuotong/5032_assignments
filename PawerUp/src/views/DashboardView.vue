@@ -1,3 +1,114 @@
+<template>
+  <div class="page-bg" :style="{ backgroundImage: `url(${loginBG})` }">
+    <span class="visually-hidden">Background image showing therapy dog comforting a student</span>
+    <div class="form-wrap">
+      <div class="container form-container">
+        <div class="row justify-content-center">
+          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-8 col-10 text-center">
+            <h1 class="page-title" v-if="isRegister">Create an Account</h1>
+            <h1 class="page-title mb-4" v-else>Sign in to Your Account</h1>
+            <label for="email" class="visually-hidden">Email Address</label>
+            <div class="field">
+              <input
+                id="email"
+                name="email"
+                type="text"
+                placeholder="Email"
+                v-model="email"
+                class="form-control"
+                @blur="validateEmail"
+                autocomplete="email"
+              />
+            </div>
+
+            <label for="password" class="visually-hidden">Password</label>
+            <div
+              class="input-row"
+              @mouseenter="hoverPassword = true"
+              @mouseleave="hoverPassword = false"
+            >
+              <input
+                id="password"
+                name="password"
+                :type="showPassword ? 'text' : 'password'"
+                placeholder="Password"
+                v-model="password"
+                class="form-control"
+                @focus="focusPassword = true"
+                @blur="focusPassword = false"
+                autocomplete="current-password"
+              />
+              <img
+                v-if="hoverPassword || focusPassword"
+                :src="showPassword ? eyeOpen : eyeClose"
+                alt="Toggle password visibility"
+                class="icon"
+                @click="showPassword = !showPassword"
+              />
+            </div>
+
+            <div
+              v-if="isRegister"
+              class="input-row"
+              @mouseenter="hoverPasswordConfirm = true"
+              @mouseleave="hoverPasswordConfirm = false"
+            >
+              <label for="passwordConfirm" class="visually-hidden">Confirm Password</label>
+              <input
+                id="passwordConfirm"
+                name="passwordConfirm"
+                :type="showPasswordConfirm ? 'text' : 'password'"
+                placeholder="Confirm Password"
+                v-model="passwordConfirm"
+                class="form-control"
+                @focus="focusPasswordConfirm = true"
+                @blur="focusPasswordConfirm = false"
+                autocomplete="new-password"
+              />
+              <img
+                v-if="hoverPasswordConfirm || focusPasswordConfirm"
+                :src="showPasswordConfirm ? eyeOpen : eyeClose"
+                alt="Toggle confirm password visibility"
+                class="icon"
+                @click="showPasswordConfirm = !showPasswordConfirm"
+              />
+            </div>
+
+            <div class="password-hint" v-if="isRegister">
+              Password must be at least 8 characters and include uppercase, lowercase, number, and
+              special character.
+            </div>
+
+            <div class="action-row">
+              <button
+                v-if="isRegister"
+                type="button"
+                class="btn btn-primary w-100"
+                @click="register"
+                :disabled="isRegistering"
+              >
+                <span v-if="isRegistering">Registering...</span>
+                <span v-else>Register</span>
+              </button>
+              <button v-else type="button" class="btn btn-success w-100" @click="signin">
+                Sign In
+              </button>
+            </div>
+
+            <div class="link-row">
+              <button type="button" class="btn btn-link" @click="toggleMode">
+                <span v-if="isRegister">Already have an account? Sign in</span>
+                <span v-else>Don't have an account? Create one</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    ```
+  </div>
+</template>
+
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -9,7 +120,6 @@ import eyeClose from '@/assets/icons/eyeClose.svg?url'
 import loginBG from '@/assets/icons/loginBG.jpg?url'
 
 const router = useRouter()
-
 const email = ref('')
 const password = ref('')
 const passwordConfirm = ref('')
@@ -21,11 +131,7 @@ const hoverPassword = ref(false)
 const hoverPasswordConfirm = ref(false)
 const focusPassword = ref(false)
 const focusPasswordConfirm = ref(false)
-const errors = ref({
-  password: '',
-  email: '',
-  confirm: '',
-})
+const errors = ref({ password: '', email: '', confirm: '' })
 const isRegistering = ref(false)
 
 const validateEmail = () => {
@@ -129,18 +235,15 @@ const signin = async () => {
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
       const userData = docSnap.data()
-      console.log('User role:', userData.role)
       if (userData.role === 'admin') {
         router.push('/admin')
       } else {
         router.push('/booking')
       }
     } else {
-      console.warn('No user document found for uid:', user.uid)
       router.push('/booking')
     }
   } catch (error) {
-    console.error('Signin error:', error)
     const code = error?.code || ''
     if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
       alert('Password incorrect. Please try again.')
@@ -162,111 +265,12 @@ const signin = async () => {
       } else {
         alert('Email not found. Please check your email or register.')
       }
-    } catch (qerr) {
-      console.warn('Could not query users collection to check existence:', qerr)
+    } catch {
       alert('Login failed. Please check your email or password.')
     }
   }
 }
 </script>
-
-<template>
-  <div class="page-bg" :style="{ backgroundImage: `url(${loginBG})` }">
-    <div class="form-wrap">
-      <div class="container form-container">
-        <div class="row justify-content-center">
-          <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-8 col-10 text-center">
-            <h1 class="page-title" v-if="isRegister">Create an Account</h1>
-            <h1 class="page-title" v-else>Sign in to Your Account</h1>
-
-            <div class="field">
-              <input
-                type="text"
-                placeholder="Email"
-                v-model="email"
-                class="form-control"
-                @blur="validateEmail"
-              />
-            </div>
-
-            <div
-              class="input-row"
-              @mouseenter="hoverPassword = true"
-              @mouseleave="hoverPassword = false"
-            >
-              <input
-                :type="showPassword ? 'text' : 'password'"
-                placeholder="Password"
-                v-model="password"
-                class="form-control"
-                @focus="focusPassword = true"
-                @blur="focusPassword = false"
-              />
-              <img
-                v-if="hoverPassword || focusPassword"
-                :src="showPassword ? eyeOpen : eyeClose"
-                alt="toggle"
-                class="icon"
-                @click="showPassword = !showPassword"
-              />
-            </div>
-
-            <div
-              v-if="isRegister"
-              class="input-row"
-              @mouseenter="hoverPasswordConfirm = true"
-              @mouseleave="hoverPasswordConfirm = false"
-            >
-              <input
-                :type="showPasswordConfirm ? 'text' : 'password'"
-                placeholder="Confirm Password"
-                v-model="passwordConfirm"
-                class="form-control"
-                @focus="focusPasswordConfirm = true"
-                @blur="focusPasswordConfirm = false"
-              />
-              <img
-                v-if="hoverPasswordConfirm || focusPasswordConfirm"
-                :src="showPasswordConfirm ? eyeOpen : eyeClose"
-                alt="toggle"
-                class="icon"
-                @click="showPasswordConfirm = !showPasswordConfirm"
-              />
-            </div>
-
-            <div class="password-hint" v-if="isRegister">
-              Password must be at least 8 characters and include uppercase, lowercase, number, and
-              special character.
-            </div>
-
-            <div class="action-row">
-              <button
-                v-if="isRegister"
-                type="button"
-                class="btn btn-primary w-100"
-                @click="register"
-                :disabled="isRegistering"
-              >
-                <span v-if="isRegistering">Registering...</span>
-                <span v-else>Register</span>
-              </button>
-              <button v-else type="button" class="btn btn-success w-100" @click="signin">
-                Sign In
-              </button>
-            </div>
-
-            <div class="link-row">
-              <button type="button" class="btn btn-link" @click="toggleMode">
-                <span v-if="isRegister">Already have an account? Sign in</span>
-                <span v-else>Don't have an account? Create one</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 .page-bg {
@@ -321,8 +325,10 @@ const signin = async () => {
   box-sizing: border-box;
 }
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
+  min-width: 48px;
+  min-height: 48px;
   cursor: pointer;
   position: absolute;
   right: 12px;
@@ -344,15 +350,26 @@ const signin = async () => {
 }
 .btn-primary,
 .btn-success {
-  background-color: #808080 !important;
-  border-color: #808080 !important;
+  background-color: #005f5f !important;
+  border-color: #005f5f !important;
   color: #fff !important;
+  min-width: 48px;
+  min-height: 48px;
 }
 .link-row {
   margin-top: 10px;
   text-align: center;
 }
-
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
 @media (max-width: 575.98px) {
   .form-container {
     max-width: 95%;

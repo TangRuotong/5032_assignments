@@ -40,6 +40,9 @@ const goToPublic = () => router.push('/puevent')
     <div class="floating-panels row justify-content-center gx-4 gy-5">
       <div class="col-12 col-md-6">
         <div class="panel" tabindex="0">
+          <span class="visually-hidden">
+            Image showing a youth therapy private session with a therapy dog
+          </span>
           <img :src="privateSessionImg" alt="Private Session" class="panel-img" />
           <div class="title-static left">Private Sessions</div>
           <div class="panel-overlay left">
@@ -56,6 +59,9 @@ const goToPublic = () => router.push('/puevent')
 
       <div class="col-12 col-md-6">
         <div class="panel" tabindex="0">
+          <span class="visually-hidden">
+            Image showing public therapy dog programs and community engagement event
+          </span>
           <img :src="publicEventImg" alt="Public Event" class="panel-img" />
           <div class="title-static right">Public Programs</div>
           <div class="panel-overlay right">
@@ -83,14 +89,14 @@ const goToPublic = () => router.push('/puevent')
 .main-title {
   font-size: clamp(2.6rem, 5vw, 4rem);
   font-weight: 900;
-  color: #008b8b;
+  color: #006666;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
 .main-intro {
   font-size: clamp(1rem, 1.4vw, 1.2rem);
-  color: #006666;
+  color: #004c4c;
   font-weight: 500;
   max-width: 900px;
   margin: 0 auto;
@@ -103,7 +109,7 @@ const goToPublic = () => router.push('/puevent')
 }
 
 .block-title {
-  color: #008b8b;
+  color: #006b6b;
   font-size: 1.7rem;
   font-weight: 800;
   margin-bottom: 12px;
@@ -204,11 +210,13 @@ const goToPublic = () => router.push('/puevent')
 }
 
 .btn-learn {
-  background-color: #008b8b;
+  background-color: #007171;
   color: #fff;
   border: none;
   border-radius: 30px;
-  padding: 10px 26px;
+  padding: 14px 40px;
+  min-width: 48px;
+  min-height: 48px;
   font-weight: 700;
   cursor: pointer;
   transition:
@@ -222,7 +230,7 @@ const goToPublic = () => router.push('/puevent')
   align-self: flex-start;
 }
 .btn-learn:hover {
-  background-color: #007575;
+  background-color: #005f5f;
   transform: translateY(-1px);
 }
 
@@ -236,6 +244,17 @@ const goToPublic = () => router.push('/puevent')
 .panel:focus-within .title-static {
   opacity: 0;
   transform: translateY(-6px);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
 }
 
 @media (max-width: 992px) {

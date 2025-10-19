@@ -9,12 +9,13 @@
       <div class="hero-text">
         <h1 class="hero-title">PawerUp Community Events</h1>
         <p class="hero-subtitle">
-          Bringing warmth, paws, and smiles to Melbourne’s youth — discover our therapy dog events
+          Bringing warmth, paws, and smiles to Melbourne's youth — discover our therapy dog events
           near Monash University.
         </p>
       </div>
     </section>
 
+    ```
     <section class="intro-section container text-center">
       <h2 class="section-heading">Our Mission</h2>
       <p>
@@ -34,8 +35,14 @@
             <p>📍 {{ spot.address }}</p>
             <p>🕒 {{ spot.hours }}</p>
             <div class="d-flex gap-2 mt-3">
-              <a :href="spot.moreUrl" target="_blank" class="cta-button">Learn More</a>
-              <button class="cta-button" style="background-color: #00b09b">Join Event</button>
+              <a
+                :href="spot.moreUrl"
+                target="_blank"
+                class="cta-button"
+                aria-label="Learn more about this park"
+                >Learn More</a
+              >
+              <button class="cta-button join-btn">Join Event</button>
             </div>
           </div>
         </div>
@@ -50,8 +57,9 @@
       <p class="cta-subtitle">
         Join our volunteers and therapy dogs to make a positive impact on youth wellbeing.
       </p>
-      <button class="cta-button">Join Us Today</button>
+      <button class="cta-button join-btn-large">Join Us Today</button>
     </section>
+    ```
   </div>
 </template>
 
@@ -187,7 +195,7 @@ const spots = [
 
 .hero-text {
   text-align: center;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.8);
   padding: 40px 20px;
   border-radius: 20px;
   max-width: 900px;
@@ -196,7 +204,7 @@ const spots = [
 .hero-title {
   font-size: clamp(2.6rem, 5vw, 4.8rem);
   font-weight: 900;
-  color: #2b8ce1;
+  color: #1f5b99;
   letter-spacing: 1px;
   text-transform: uppercase;
   margin-bottom: 20px;
@@ -205,105 +213,51 @@ const spots = [
 .hero-subtitle {
   font-size: clamp(1.2rem, 2vw, 1.6rem);
   font-weight: 500;
-  color: #333;
+  color: #1a1a1a;
   line-height: 1.6;
-}
-
-.intro-section {
-  background-color: #f9fafb;
-  color: #333;
-  font-size: 1.1rem;
-  line-height: 1.9;
-  padding-top: 100px;
-  padding-bottom: 100px;
 }
 
 .section-heading {
   font-size: 2.2rem;
   font-weight: 800;
-  color: #2b8ce1;
+  color: #1f5b99;
   margin-top: 60px;
   margin-bottom: 25px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.info-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 32px 24px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-  height: 100%;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-.info-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
-}
-
-.info-card h3 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #005d83;
-  margin-bottom: 12px;
-}
-
-.info-card p {
-  font-size: 1rem;
-  color: #444;
-  line-height: 1.7;
-}
-
-.cta-section {
-  background: linear-gradient(135deg, #c9f4e5 0%, #b5dcff 100%);
-  color: #004b66;
-}
-
-.cta-title {
-  font-size: 2.4rem;
-  font-weight: 800;
-  margin-bottom: 10px;
-}
-
-.cta-subtitle {
-  font-size: 1.2rem;
-  margin-bottom: 25px;
-}
-
 .cta-button {
-  background-color: #2b8ce1;
+  background-color: #1f5b99;
   color: white;
   border: none;
   border-radius: 30px;
-  padding: 12px 36px;
+  padding: 14px 40px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  min-width: 48px;
+  min-height: 48px;
 }
 
 .cta-button:hover {
-  background-color: #176ebc;
+  background-color: #163f73;
 }
 
-@media (max-width: 768px) {
-  .hero-section {
-    height: 60vh;
-  }
-  .hero-text {
-    padding: 25px;
-  }
-  .hero-title {
-    font-size: 2.2rem;
-  }
-  .hero-subtitle {
-    font-size: 1rem;
-  }
-  .cta-title {
-    font-size: 1.9rem;
-  }
+.join-btn {
+  background-color: #006b5c;
+}
+
+.join-btn:hover {
+  background-color: #004d41;
+}
+
+.join-btn-large {
+  background-color: #006b5c;
+}
+
+.join-btn-large:hover {
+  background-color: #004d41;
 }
 </style>

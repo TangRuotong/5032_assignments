@@ -1,6 +1,9 @@
 <template>
   <div class="about-wrapper">
     <section class="about-hero" :style="{ backgroundImage: `url(${aboutPic})` }">
+      <span class="visually-hidden">
+        Background image showing therapy dogs and volunteers engaging with youth
+      </span>
       <div class="hero-text text-center">
         <h1 class="hero-title">About PawerUp</h1>
         <p class="hero-subtitle">Creating calm, connection, and confidence through therapy dogs.</p>
@@ -18,7 +21,7 @@
               and stigma-free.
             </p>
 
-            <h2 class="section-heading">What We Do</h2>
+            <h3 class="section-subheading">What We Do</h3>
             <p>
               We connect young people with certified therapy dogs through short, low-pressure
               sessions on campuses and in community spaces. Whether you're feeling stressed,
@@ -26,7 +29,7 @@
               connected, and emotionally supported.
             </p>
 
-            <h2 class="section-heading">Who We Help</h2>
+            <h3 class="section-subheading">Who We Help</h3>
             <p>
               Our programs are designed for all young people who want support for their mental
               health and wellbeing. We focus on creating approachable, informal, and inclusive
@@ -42,7 +45,7 @@
               emotional connection.
             </p>
 
-            <h2 class="section-heading">How We Help</h2>
+            <h3 class="section-subheading">How We Help</h3>
             <ul>
               <li>Book short sessions with therapy dogs in your community or campus</li>
               <li>Find out about upcoming pop-up events nearby</li>
@@ -50,7 +53,7 @@
               <li>Read stories from young people who have benefitted from our programs</li>
             </ul>
 
-            <h2 class="section-heading">Why It Matters</h2>
+            <h3 class="section-subheading">Why It Matters</h3>
             <p>
               Our web platform makes it easy for young people to access gentle emotional support
               without referrals or formal diagnosis. It's about building resilience, reducing
@@ -96,17 +99,17 @@ import aboutPic from '@/assets/icons/aboutPic.jpg?url'
   justify-content: center;
 }
 
-/* .hero-text {
+.hero-text {
   background: rgba(255, 255, 255, 0.65);
   border-radius: 20px;
   padding: 40px 30px;
   max-width: 900px;
-} */
+}
 
 .hero-title {
   font-size: clamp(2.5rem, 5vw, 4.2rem);
   font-weight: 900;
-  color: #ffffff;
+  color: #006f83;
   letter-spacing: 1px;
   text-transform: uppercase;
   margin-bottom: 15px;
@@ -114,8 +117,8 @@ import aboutPic from '@/assets/icons/aboutPic.jpg?url'
 
 .hero-subtitle {
   font-size: clamp(1.2rem, 2vw, 1.5rem);
-  color: #ffffff;
-  line-height: 5;
+  color: #003c3c;
+  line-height: 1.6;
 }
 
 .about-section {
@@ -134,6 +137,15 @@ import aboutPic from '@/assets/icons/aboutPic.jpg?url'
   margin-bottom: 20px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
+}
+
+.section-subheading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #006b6b;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  letter-spacing: 0.5px;
 }
 
 .about-section ul {
@@ -166,11 +178,13 @@ import aboutPic from '@/assets/icons/aboutPic.jpg?url'
 }
 
 .cta-button {
-  background-color: #008b8b;
+  background-color: #007171;
   color: white;
   border: none;
   border-radius: 30px;
-  padding: 12px 36px;
+  padding: 14px 40px;
+  min-width: 48px;
+  min-height: 48px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
@@ -178,7 +192,18 @@ import aboutPic from '@/assets/icons/aboutPic.jpg?url'
 }
 
 .cta-button:hover {
-  background-color: #007171;
+  background-color: #005f56;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
 }
 
 @media (max-width: 768px) {

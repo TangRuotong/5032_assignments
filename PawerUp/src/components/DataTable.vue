@@ -87,7 +87,7 @@ const prevPage = () => {
       />
     </div>
 
-    <div class="table-responsive">
+    <div class="table-container">
       <table class="data-table table align-middle" aria-label="Data table">
         <thead class="table-light">
           <tr>
@@ -160,13 +160,18 @@ const prevPage = () => {
   font-size: 1rem;
 }
 
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .data-table {
   width: 100%;
   border-collapse: collapse;
   background: #ffffff;
   border-radius: 14px;
   overflow: hidden;
-  table-layout: fixed;
+  min-width: 700px;
 }
 
 th,
@@ -175,8 +180,6 @@ td {
   padding: 12px 14px;
   border-bottom: 1px solid #e2e2e2;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 th {
@@ -197,10 +200,6 @@ th:hover {
   margin-left: 6px;
   color: v-bind(themeColor);
   opacity: 0.8;
-}
-.sort-icon.active,
-.sort-hint.active {
-  opacity: 1;
 }
 
 .col-filter {
