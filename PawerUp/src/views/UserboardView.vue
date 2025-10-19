@@ -13,7 +13,6 @@
 
   <div class="container-fluid py-5">
     <div class="row g-4">
-      <!-- Profile + Booking -->
       <div class="col-12 col-lg-4">
         <section class="card profile-card shadow-sm border-0 p-4" aria-labelledby="profile-title">
           <h2 id="profile-title" class="visually-hidden">Profile</h2>
@@ -96,12 +95,9 @@
         </section>
       </div>
 
-      <!-- Inbox + Map -->
       <div class="col-12 col-lg-8">
-        <!-- Inbox -->
         <section class="card inbox-card shadow-sm border-0 p-3 mb-4" aria-labelledby="inbox-title">
           <h2 id="inbox-title" class="h5 text-title fw-bold mb-3">Inbox Messages</h2>
-
           <ul v-if="messages.length" class="list-group">
             <li v-for="m in messages" :key="m.id" class="list-group-item">
               <div class="d-flex justify-content-between align-items-start gap-3">
@@ -118,7 +114,6 @@
                   {{ m.showDetail ? 'Hide' : 'View' }}
                 </button>
               </div>
-
               <div v-if="m.showDetail" class="mt-3 msg-box" :id="`msg-${m.id}`">
                 <p class="mb-2 text-dark">{{ m.message }}</p>
                 <div v-if="m.details" class="msg-details">
@@ -129,14 +124,11 @@
               </div>
             </li>
           </ul>
-
           <p v-else class="text-center text-muted mb-0">No messages yet.</p>
         </section>
 
-        <!-- Map -->
         <section class="card map-card shadow-sm border-0 p-3" aria-labelledby="nearby-title">
           <h2 id="nearby-title" class="h5 text-title fw-bold mb-3">Recommended Nearby Events</h2>
-
           <div v-if="recommendations.length" class="recommendations mb-3" role="list">
             <div
               v-for="(spot, i) in recommendations"
@@ -164,18 +156,15 @@
               </div>
             </div>
           </div>
-
           <div v-else class="empty-tip text-center text-muted mb-3">
             Enable location or search start point to see spots
           </div>
-
           <div class="map-wrapper" aria-label="Map with route and search controls">
             <Map
               @update-recommendations="updateRecommendations"
               @route-details="updateRouteDetails"
             />
           </div>
-
           <div v-if="routeDetails" class="route-details mt-3 p-3 bg-light rounded-3 border">
             <h3 class="h6 fw-bold text-dark mb-2">Route Details</h3>
             <p class="small text-muted mb-1"><strong>From:</strong> {{ routeDetails.start }}</p>
@@ -210,7 +199,6 @@ const recommendations = ref([])
 const messages = ref([])
 const routeDetails = ref(null)
 const ratedCount = computed(() => bookings.value.filter((b) => b.rated).length)
-
 let unsubscribe = null
 const getInboxMessages = httpsCallable(functions, 'getInboxMessages')
 
@@ -246,7 +234,6 @@ function formatTimestamp(ts) {
   if (ts.toDate) return ts.toDate().toLocaleString()
   return new Date(ts).toLocaleString()
 }
-
 function toggleDetail(msg) {
   msg.showDetail = !msg.showDetail
 }
@@ -257,17 +244,10 @@ onMounted(() => {
       user.value.email = u.email
       user.value.name = u.displayName || 'Anonymous'
       user.value.avatar = u.photoURL || profilePic
-
       const res = await getInboxMessages({ uid: u.uid })
       messages.value = res.data.msgs.map((m) => ({ ...m, showDetail: false }))
-
       const q = query(collection(db, 'inboxes', u.uid, 'msgs'), orderBy('timestamp', 'desc'))
       unsubscribe = onSnapshot(q, (snapshot) => {
-        console.log('Snapshot count:', snapshot.docs.length)
-        console.log(
-          'Messages:',
-          snapshot.docs.map((d) => d.data()),
-        )
         const newMsgs = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -278,7 +258,6 @@ onMounted(() => {
     }
   })
 })
-
 onUnmounted(() => {
   if (unsubscribe) unsubscribe()
 })
@@ -335,10 +314,13 @@ onUnmounted(() => {
   height: 640px;
   border-radius: 12px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 :deep(.map-container) {
-  height: 640px !important;
-  min-height: 640px !important;
+  flex: 1 1 auto;
+  height: 100% !important;
+  min-height: 400px !important;
 }
 .recommendations .rec-row {
   background: #f8fafc;
@@ -373,7 +355,20 @@ onUnmounted(() => {
 }
 @media (max-width: 992px) {
   .map-wrapper {
-    height: 420px;
+    height: auto;
+    min-height: 480px;
+  }
+  :deep(.map-container) {
+    min-height: 480px !important;
+  }
+}
+@media (max-width: 576px) {
+  .map-wrapper {
+    height: auto;
+    min-height: 420px;
+  }
+  :deep(.map-container) {
+    min-height: 420px !important;
   }
 }
 </style>
